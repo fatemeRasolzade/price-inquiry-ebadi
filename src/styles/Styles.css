@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url(Font.css);
+
+@layer base {
+  html {
+    @apply bg-slate-800;
+  }
+  /* body {
+    @apply bg-slate-800;
+  } */
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-sm sm:text-base text-right  text-yellow;
+  }
+  input {
+    @apply text-main-grey;
+  }
+  label {
+    @apply text-yellow;
+  }
+}
+
+@layer components {
+  .custom-btn {
+    @apply px-5 py-2 rounded text-xs sm:text-sm;
+  }
+  .main-btn {
+    @apply bg-yellow text-slate-800;
+  }
+  .layout {
+    @apply flex flex-col gap-3 max-w-2xl mx-auto px-3 mb-8;
+  }
+  .centering {
+    @apply flex justify-center items-center;
+  }
+  .flex-start-center {
+    @apply flex justify-start items-center;
+  }
+  .flex-end-center {
+    @apply flex justify-end items-center;
+  }
+  .flex-start-start {
+    @apply flex justify-start items-start;
+  }
+  .flex-start-end {
+    @apply flex justify-start items-end;
+  }
+  .flex-between-center {
+    @apply flex justify-between items-center;
+  }
+  .flex-between-start {
+    @apply flex justify-between items-start;
+  }
+  .flex-around-center {
+    @apply flex justify-around items-center;
+  }
+  .flex-center-end {
+    @apply flex justify-center items-end;
+  }
+  .flex-end-end {
+    @apply flex justify-end items-end;
+  }
+  .flex-between-end {
+    @apply flex justify-between items-end;
+  }
+  .flex-end-start {
+    @apply flex justify-end items-start;
+  }
+}
+
+.muirtl-1gjgmky-MuiToggleButtonGroup-root .MuiToggleButtonGroup-grouped {
+  color: #cc9c00 !important;
+}
+
+.muirtl-1gbnow-MuiInputBase-root-MuiInput-root::before {
+  border-bottom: 1px solid #fff !important;
+}
+
+.muirtl-1f2kvjf-MuiFormControlLabel-root {
+  margin: 0 !important;
+  justify-content: start !important;
+}
+
+.muirtl-1gjgmky-MuiToggleButtonGroup-root {
+  height: 40px !important;
+}
+
+.muirtl-1vld5rk-MuiButtonBase-root-MuiToggleButton-root.Mui-selected {
+  background-color: rgba(204, 156, 0, 0.3) !important;
+}
+
+.muirtl-j204z7-MuiFormControlLabel-root {
+  margin-left: 0 !important;
+}
+
+.muirtl-c2bbxa-MuiButtonBase-root-MuiCheckbox-root {
+  padding: 0 !important;
+}
+
+input {
+  color: #828282 !important;
+  -webkit-text-fill-color: #828282 !important;
+}
+
+label {
+  color: #cc9c00 !important;
+}
