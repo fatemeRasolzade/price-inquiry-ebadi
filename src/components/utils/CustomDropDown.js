@@ -5,7 +5,7 @@ import Search from "../../public/icon/Search";
 import Clear from "../../public/icon/Clear";
 import DropDownArrow from "../../public/icon/DropDownArrow";
 
-const CustomDropDown = ({ value, setValue, label, name, list = [], listText = "name", searchOption, depName, depText, disabled, disabledText = "", disabledClear, variant = "outlined", parentClassName }) => {
+const CustomDropDown = ({ value, setValue, label, name, list = [], perName = "nameFa", engName = "nameEn", searchOption, depName, depText, disabled, disabledText = "", disabledClear, variant = "outlined", parentClassName }) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -28,7 +28,7 @@ const CustomDropDown = ({ value, setValue, label, name, list = [], listText = "n
     setValue({ ...value, [name]: "" });
   };
 
-  const listFilter = () => list.filter((l) => l[listText].toLowerCase().includes(search.toLowerCase()));
+  const listFilter = () => list.filter((l) => (l[engName] && l[engName].toLowerCase().includes(search.toLowerCase())) || (l[perName] && l[perName].toLowerCase().includes(search.toLowerCase())));
 
   return (
     <div className={`relative w-full ${parentClassName}`}>
@@ -44,7 +44,7 @@ const CustomDropDown = ({ value, setValue, label, name, list = [], listText = "n
           onFocus={() => setOpen(true)}
           onBlur={() => setOpen(false)}
           placeholder={searchOption ? "جستجو" : "انتخاب"}
-          value={(value[name] ? value[name][listText] : "") || search}
+          value={(value[name] ? `${value[name][perName]} (${value[name][engName]}) ` : "") || search}
           onChange={handleChange}
           InputProps={{
             endAdornment: search || (value[name] && !disabled && !disabledClear) ? <Clear OnClick={handleClear} /> : <DropDownArrow open={open} />,
@@ -58,7 +58,7 @@ const CustomDropDown = ({ value, setValue, label, name, list = [], listText = "n
             {listFilter().length !== 0 ? (
               listFilter().map((l) => (
                 <li key={l.id} onClick={() => handleClick(l)} className="px-4 py-2 hover:cursor-pointer hover:bg-light-yellow text-main-grey">
-                  {l[listText]}
+                  {`${l[perName]} (${l[engName]})`}
                 </li>
               ))
             ) : (
