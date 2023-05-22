@@ -3,63 +3,66 @@ import CustomBtn from "./utils/CustomBtn";
 import CustomInput from "./utils/CustomInput";
 import CustomDropDown from "./utils/CustomDropDown";
 import EbadiLogo from "../public/img/Ebadi.png";
-import { CompanyList } from "../services/apis/Inquiry";
+import { CompanyList, priceInquiry } from "../services/apis/Inquiry";
+
+const initialForm = {
+  model: "",
+  company: "",
+  year: "",
+};
 
 const Home = () => {
-  const [form, setForm] = useState({
-    model: "",
-    company: "",
-    year: "",
-  });
+  const [form, setForm] = useState(initialForm);
   const [Companies, setCompanies] = useState([]);
+  const [Models, setModels] = useState([]);
+  const [Price, setPrice] = useState([]);
 
   const [ErrorMessage, setErrorMessage] = useState(" ");
 
   useEffect(() => {
     setErrorMessage(" ");
+  }, []);
+
+  useEffect(() => {
+    CompanyList(form.company?.id ? form.company?.id : 0).then((res) => setModels(res));
+  }, [form.company]);
+
+  useEffect(() => {
     CompanyList().then((res) => setCompanies(res));
-  }, [form]);
+    if (!form?.company?.id) {
+      let company = Companies.find((item) => item.id === form.model.companyID);
+      setForm((prev) => ({ model: prev.model, company }));
+    }
+  }, [form.model]);
 
   const handleClick = (e) => {
     e.stopPropagation();
     e.preventDefault();
 
     // for use
-    // LoginUser(form)
-    //   .then((res) => {
-    //     navigate("/dashboard");
-    //     localStorage.setItem("user", JSON.stringify({ name: res.UserName, id: res.ID, groupID: res.GroupID }));
-    //     localStorage.setItem("branch", JSON.stringify(Branch.branch));
-
-    //     console.log(res);
-    //   })
-    //   .catch((error) => {
-    //     if (error.response.status === 404) {
-    //       console.log(error.response.status);
-    //       setErrorMessage("نام کاربری و یا رمز عبور نادرست است");
-    //     } else {
-    //       setErrorMessage("مشکلی پیش آمده است لطفا با تیم توسعه ارتباط برقرار کنید");
-    //     }
-    //   });
+    priceInquiry(form.model.id, form.year)
+      .then((res) => {
+        console.log(res);
+        setPrice(res);
+      })
+      .catch((error) => {
+        setErrorMessage("مشکلی از سمت سرور رخ داده است");
+      });
   };
 
-  // const ChkDisabled = () => form.userName === "" || form.password === "" || !Branch.branch.ID;
+  const ChkDisabled = () => !form?.company?.id || !form?.model?.id || form?.year === "";
 
   return (
     <div className=" centering h-screen">
       <form onSubmit={handleClick} className="gap-4 flex-end-end flex-col w-96 rounded-lg mx-auto bg-slate-800 p-10">
         <img className="mx-auto" width={200} src={EbadiLogo} alt="ebadi" />
-        <CustomDropDown value={form} setValue={setForm} name="company" label="کمپانی" list={Companies} searchOption variant="standard" />
-        <CustomDropDown value={form} setValue={setForm} name="model" label="مدل" list={[]} searchOption variant="standard" />
-        <CustomInput value={form} setValue={setForm} name="year" label="سال ساخت " variant="standard" />
+        <CustomDropDown value={form} setValue={setForm} name="company" label="کمپانی" list={Companies} searchOption variant="standard" clearField={() => setForm(initialForm)} />
+        <CustomDropDown value={form} setValue={setForm} name="model" label="مدل" list={Models} searchOption variant="standard" />
+        <CustomInput value={form} setValue={setForm} name="year" label="سال ساخت " variant="standard" maxLength={4} JustNumber />
         <p className={`${ErrorMessage ? "opacity-100" : "opacity-0"} text-red-600 transition h-4 w-full`}>{ErrorMessage}</p>
-        <CustomBtn
-          parentClassName="w-full"
-          // disabled={ChkDisabled()}
-          text="استعلام"
-          OnClick={handleClick}
-          className="main-btn w-full"
-        />
+        <CustomBtn parentClassName="w-full" disabled={ChkDisabled()} text="استعلام" OnClick={handleClick} className="main-btn w-full" />
+        <p className="text-right w-full">قیمت کارشناسی برای همکار: {Price[1]}</p>
+        <p className="text-right w-full">قیمت کارشناسی برای مصرف کننده: {Price[0]}</p>
       </form>
     </div>
   );

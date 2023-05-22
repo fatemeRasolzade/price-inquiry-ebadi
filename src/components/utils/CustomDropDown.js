@@ -5,7 +5,7 @@ import Search from "../../public/icon/Search";
 import Clear from "../../public/icon/Clear";
 import DropDownArrow from "../../public/icon/DropDownArrow";
 
-const CustomDropDown = ({ value, setValue, label, name, list = [], perName = "nameFa", engName = "nameEn", searchOption, depName, depText, disabled, disabledText = "", disabledClear, variant = "outlined", parentClassName }) => {
+const CustomDropDown = ({ value, setValue, label, name, list = [], perName = "nameFa", engName = "nameEn", searchOption, depName, depText, disabled, disabledText = "", disabledClear, variant = "outlined", parentClassName, clearField }) => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -26,6 +26,7 @@ const CustomDropDown = ({ value, setValue, label, name, list = [], perName = "na
   const handleClear = () => {
     setSearch("");
     setValue({ ...value, [name]: "" });
+    clearField && clearField();
   };
 
   const listFilter = () => list.filter((l) => (l[engName] && l[engName].toLowerCase().includes(search.toLowerCase())) || (l[perName] && l[perName].toLowerCase().includes(search.toLowerCase())));
