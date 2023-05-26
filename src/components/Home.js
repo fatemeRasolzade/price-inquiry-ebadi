@@ -30,6 +30,11 @@ const Home = () => {
     }
   }, [form.model]);
 
+  useEffect(() => {
+    setPrice([])
+  }, [form])
+  
+
   const handleClick = (e) => {
     e.stopPropagation();
     e.preventDefault();

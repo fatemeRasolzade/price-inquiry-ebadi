@@ -1,33 +1,7 @@
 import { TextField } from "@mui/material";
+import Clear from "../../public/icon/Clear";
 
-const CustomInput = ({
-  OnClick,
-  inputRef,
-  error,
-  id,
-  helperText,
-  name = "",
-  value = "",
-  setValue,
-  label,
-  OnChange,
-  className,
-  style,
-  placeholder,
-  autoFocus,
-  startIcon,
-  endIcon,
-  multiline,
-  commafy,
-  JustNumber,
-  OnFocus,
-  OnBlur,
-  disabled,
-  handleStartIcon,
-  handleEndIcon,
-  variant = "outlined",
-  maxLength,
-}) => {
+const CustomInput = ({ OnClick, inputRef, error, id, helperText, name = "", value = "", setValue, label, OnChange, className, style, placeholder, autoFocus, endIcon, multiline, commafy, JustNumber, OnFocus, OnBlur, disabled, handleEndIcon, variant = "outlined", maxLength }) => {
   const handleChange = (e) => {
     if (commafy) {
       if (e.target.value !== "") {
@@ -47,6 +21,13 @@ const CustomInput = ({
         [name]: e.target.value,
       });
     }
+  };
+
+  const handleClear = () => {
+    setValue({
+      ...value,
+      [name]: "",
+    });
   };
 
   return (
@@ -73,8 +54,7 @@ const CustomInput = ({
       onChange={OnChange ? OnChange : handleChange}
       disabled={disabled}
       InputProps={{
-        startAdornment: startIcon && <span onClick={handleStartIcon}>{startIcon}</span>,
-        endAdornment: endIcon && <span onClick={handleEndIcon}>{endIcon}</span>,
+        endAdornment: value[name] && <Clear OnClick={handleClear} />,
       }}
       onClick={OnClick}
     />
